@@ -1,3 +1,4 @@
+
 let express = require("express");
 var cors = require('cors');
 let app = express();
@@ -9,6 +10,7 @@ var corsOption = {
     exposedHeaders: ['x-auth-token']
 };
 app.use(cors(corsOption));
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use('/', require('./routes'));
@@ -25,6 +27,7 @@ app.use(function (err, req, res, next) {
         code: 500, error: 'Something went wrong, please try again!'
     })
 })
+
 app.listen(process.env.PORT || 4300, () => {
     console.log("SERVER START AT PORT 4300");
 });
