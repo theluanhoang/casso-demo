@@ -34,8 +34,11 @@ router.route('/webhook/handler-bank-transfer')
                 const match = item.description.match(regex);
 
                 const result = match ? match[0] : null;
+                console.log('match: ', match);
+                if (match) {
+                    console.log('item: ', item);
+                }
 
-                console.log('item: ', item);
                 console.log('result: ', result);
             }
             return res.status(200).json({
