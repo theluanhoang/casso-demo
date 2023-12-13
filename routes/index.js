@@ -31,7 +31,7 @@ router.route('/webhook/handler-bank-transfer')
                 })
             }
 
-            console.log('data: ', data);
+            console.log('data: ', req.body.data);
             // B2: Thực hiện lấy thông tin giao dịch 
             for (let item of req.body.data) {
                 // Lấy thông orderId từ nội dung giao dịch
