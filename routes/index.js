@@ -3,6 +3,8 @@ var router = express.Router();
 //Router này sẽ là webhook nhận thông tin giao dịch từ casso gọi qua được bảo mật bằng secure_token trong header
 router.route('/webhook/handler-bank-transfer')
     .post(async (req, res, next) => {
+        console.log("CALLING");
+        console.log("res: ", res);
         res.status(200).json({ message: "Hello world" })
     })
 // Router này sẽ thực hiện tính năng đồng bộ giao dịch tức thì.
