@@ -29,17 +29,17 @@ router.route('/webhook/handler-bank-transfer')
             }
 
             for (let item of req.body.data) {
-                const regex = /DGUPAYMENT/;
+                const regex = /DGUPAYMENT-(\d+)/;
 
                 const match = item.description.match(regex);
 
-                const result = match ? match[0] : null;
+                const userId = match ? match[1] : null;
                 console.log('match: ', match);
                 if (match) {
                     console.log('item: ', item);
                 }
 
-                console.log('result: ', result);
+                console.log('userId: ', userId);
             }
             return res.status(200).json({
                 code: 200,
