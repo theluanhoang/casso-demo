@@ -10,20 +10,17 @@ const monent = require('moment');
 // ============
 //Tùy theo ứng dụng của bạn mà có thể thay đổi, ở đây mình mặc định một vài thông số
 //Tiền tố giao dịch
-const transaction_prefix = 'CASSO';
+const transaction_prefix = 'DGUPAYMENT';
 // Phân biệt chữ hoa/thường trong tiền tố giao dịch
 const case_insensitive = false;
 //Hạn của đơn hàng là 3 ngày. Quá 3 ngày thì không xử lý
 const expiration_date = 3;
 // API KEY lấy từ casso
 const api_key = 'AK_CS.c5354600998f11ee98adb99c9b918b27.0HMMEe8pJCoAdbMltYt5Lj51mD9qduSSxapQAXNbRywKHsdzH6GKxysJlqbLysIWRaYNCJdb'
-// secure_token đăng kí khi tạo webhook
 const secure_token = 'R5G4cbnN7uSAwfTd'
 router.route('/webhook/handler-bank-transfer')
     .post(async (req, res, next) => {
         try {
-            // B1: Ở đây mình sẽ thực hiện check secure-token. Bình thường phần này sẽ nằm trong middlewares
-            // Mình sẽ code trực tiếp tại đây cho dễ hình dung luồng. Nếu không có secure-token hoặc sai đều trả về lỗi
             if (!req.header('secure-token') || req.header('secure-token') != secure_token) {
                 return res.status(401).json({
                     code: 401,
@@ -31,22 +28,15 @@ router.route('/webhook/handler-bank-transfer')
                 })
             }
 
-            console.log('data: ', req.body.data);
-            // B2: Thực hiện lấy thông tin giao dịch 
             for (let item of req.body.data) {
-                // Lấy thông orderId từ nội dung giao dịch
-                let orderId = webhookUtil.parseOrderId(case_insensitive, transaction_prefix, item.description);
-                // Nếu không có orderId phù hợp từ nội dung ra next giao dịch tiếp theo
-                if (!orderId) continue;
-                // Kiểm tra giao dịch còn hạn hay không? Nếu không qua giao dịch tiếp theo
-                if ((((new Date()).getTime() - (new Date(item.when)).getTime()) / 86400000) >= expiration_date) continue;
+                const regex = /DGUPAYMENT/;
 
-                console.log(orderId);
-                // Bước quan trọng đây.
-                // Sau khi có orderId Thì thực hiện thay đổi các trang thái giao dịch
-                // Ví dụ như kiểm tra orderId có tồn tại trong danh sách các đơn hàng của bạn?
-                // Sau đó cập nhật trạng thái theo orderId và amount nhận được: đủ hay thiếu tiền...
-                // Và một số chức năng khác có thể tùy biến
+                const match = item.description.match(regex);
+
+                const result = match ? match[0] : null;
+
+                console.log('item: ', item);
+                console.log('result: ', result);
             }
             return res.status(200).json({
                 code: 200,
