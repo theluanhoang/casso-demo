@@ -17,4 +17,9 @@ router.route('/register-webhook')
         res.status(200).json({ message: "Hello world" })
     })
 
+router.route('/')
+    .get(async (req, res, next) => {
+        res.status(200).json({ message: "Hello world" })
+    })
+
 module.exports = router;
