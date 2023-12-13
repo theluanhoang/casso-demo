@@ -3,7 +3,8 @@ var router = express.Router();
 //Router này sẽ là webhook nhận thông tin giao dịch từ casso gọi qua được bảo mật bằng secure_token trong header
 router.route('/webhook/handler-bank-transfer')
     .post(async (req, res, next) => {
-        if (!req.header('secure-token') || req.header('secure-token') != secure_token) {
+        if (!req.header('secure-token') || req.header('secure-token') != "R5G4cbnN7uSAwfTd") {
+            console.log('error: ', 'Missing secure-token or wrong secure-token');
             return res.status(401).json({
                 code: 401,
                 message: 'Missing secure-token or wrong secure-token'
