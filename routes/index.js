@@ -4,7 +4,7 @@ var router = express.Router();
 router.route('/webhook/handler-bank-transfer')
     .post(async (req, res, next) => {
         console.log("CALLING");
-        console.log("res: ", res);
+        console.log("data: ", res.body.data);
         res.status(200).json({ message: "Hello world" })
     })
 // Router này sẽ thực hiện tính năng đồng bộ giao dịch tức thì.
